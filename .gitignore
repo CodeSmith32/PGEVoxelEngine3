@@ -1,0 +1,7 @@
+-ignore
+-ignore/*
+
+.objs64
+.objs64/*
+
+*.exe

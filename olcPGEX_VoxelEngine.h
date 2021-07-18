@@ -1,3 +1,12 @@
+/*
+    VoxelEngine3: Flat-3D Voxel Rendering Algorithm
+    Uses per-screen-x raycasting and a custom y-jumping column rendering
+    algorithm to optimize rendering arbitrary voxels in 3d space.
+
+    To compile implementation, use:
+    #define OLC_PGEX_VOXELENGINE
+*/
+
 #ifndef OLC_PGEX_VOXELENGINE_H
 #define OLC_PGEX_VOXELENGINE_H
 
@@ -153,10 +162,12 @@ namespace olc {
 #define PI12 1.570796326795f
 #define DTR 0.01745329251994f
 #define RTD 57.29577951308f
+#define VOX_DRAWABLE 0x80000000
+#define VOX_COLLIDABLE 0x40000000
 #define VOX_ISDRAWABLE(V) (((V) & 0x80000000) != 0)
 #define VOX_ISCOLLIDABLE(V) (((V) & 0x40000000) != 0)
 
-// #ifdef OLC_PGEX_VOXELENGINE
+#ifdef OLC_PGEX_VOXELENGINE
 #undef OLC_PGEX_VOXELENGINE
 
 uint32_t olc::vox::Object::AdjustPixel(uint32_t pixel, int x, int y, const ObjectView* details) {
@@ -783,6 +794,6 @@ void olc::vox::Engine::RasterPixel(int x, int y, float z, const uint32_t &color)
     }
 }
 
-// #endif // OLC_PGEX_VOXELENGINE
+#endif // OLC_PGEX_VOXELENGINE
 
 #endif // OLC_PGEX_VOXELENGINE_H

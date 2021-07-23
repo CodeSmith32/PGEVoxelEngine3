@@ -222,6 +222,7 @@ olc::vox::Engine::~Engine() {
         delete[] state->world;
 
     delete[] state->depthBuffer;
+    delete[] state->jumpBuffer;
 
     delete state;
 }
@@ -377,7 +378,7 @@ void olc::vox::Engine::RayCast(olc::vox::HitDetails &hit, float x, float y, floa
             tileY += stepY;
             T += yf;
 
-            if(tileY < 0 || tileY >= state->worldWidth) continue;
+            if(tileY < 0 || tileY >= state->worldHeight) continue;
 
             // test x-z surface for non-empty voxels
             int x1 = int(floorf(px - outX - xs));
@@ -654,7 +655,7 @@ void olc::vox::Engine::CastRay(int x) {
             // handle empty voxel jumps
             if(!VOX_ISDRAWABLE(vox->colors[tileZ])) {
                 do {
-                    tileZ -= int(vox->colors[tileZ]);
+                    tileZ -= int(vox->colors[tileZ] & 0x00FFFFFF);
                     if(tileZ < endZ) goto BAIL; // we've passed the end voxel; nothing else opaque to render
                     tileZ = tileZ / cellSize * cellSize;
                 } while(!VOX_ISDRAWABLE(vox->colors[tileZ]));

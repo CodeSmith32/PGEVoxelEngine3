@@ -666,6 +666,7 @@ void olc::vox::Engine::CastRay(int x) {
                 voxScale = fmax((float(tileZ + cellSize) - state->cameraZ) / dd - 1.0f, 0.0f) * float(cellSize) * 2.0f;
                 y = WORLD_TO_SCREEN((tileZ + cellSize) + voxScale); // '+ voxScale' fills in steep projection angle gaps
                 if(y < prevY) y = prevY;
+                if(y >= state->screenHeight) goto BAIL;
             }
 
             // handle buffer jumps
@@ -723,6 +724,9 @@ void olc::vox::Engine::CastRay(int x) {
 
         BAIL:
         if(state->jumpBuffer[bufI] >= state->screenHeight) break;
+
+        #undef SCREEN_TO_WORLD
+        #undef WORLD_TO_SCREEN
     }
 
     // fill in sky
